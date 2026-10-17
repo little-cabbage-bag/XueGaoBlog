@@ -1,0 +1,653 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>XueGao's Blog · 雪糕 QQ-Bot</title>
+  <meta name="description" content="雪糕的海边小日记。雪糕是一个有自己性格的 QQ 智能机器人：会聊天、会记忆、懂得适时安静，并且可以持续扩展能力。">
+  <meta name="keywords" content="雪糕,XueGao,QQ机器人,QQ-Bot,QQ群机器人,人格化机器人,长期记忆,好感值,成就系统">
+  <meta name="theme-color" content="#fbfaf6">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="XueGao's Blog · 雪糕 QQ-Bot">
+  <meta property="og:description" content="一个会聊天、会记忆、懂得适时安静，并且可以持续扩展能力的 QQ 智能机器人。">
+  <meta property="og:image" content="assets/xuegao.jpg">
+  <!-- 官网域名待补充：确定后补上 <link rel="canonical"> 与 og:url，并把 og:image 换成绝对地址 -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/journal.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/extras.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/play.css">
+  <script>
+    (function (d) {
+      d.classList.add("js");
+      var seen = false;
+      try { seen = sessionStorage.getItem("xg-intro") === "1"; sessionStorage.setItem("xg-intro", "1"); } catch (e) {}
+      if (seen || matchMedia("(prefers-reduced-motion: reduce)").matches) d.classList.add("no-intro");
+    })(document.documentElement);
+  </script>
+</head>
+<body>
+<a class="skip-link" href="#journal">跳到正文</a>
+
+<div class="intro" aria-hidden="true">
+  <div class="intro-inner">
+    <svg viewBox="0 0 200 60"><ellipse cx="100" cy="30" rx="92" ry="20"/><path d="M100 3l5 7-5 7-5-7z"/></svg>
+    <p>XueGao's Blog</p>
+    <small>ENTRY NO.001</small>
+  </div>
+</div>
+<canvas class="sea-canvas" aria-hidden="true"></canvas>
+<div class="cursor-dot" aria-hidden="true"></div>
+<div class="cursor-ring" aria-hidden="true"><span></span></div>
+
+<header class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="logo" href="#top" aria-label="XueGao's Blog 回到顶部">
+      <img src="assets/favicon.png" alt="" width="32" height="32">
+      <span>XueGao's Blog</span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="打开导航"><span></span></button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#journal">日记</a></li>
+      <li><a href="#about">关于我</a></li>
+      <li><a href="#abilities">能力</a></li>
+      <li><a href="#commands">命令</a></li>
+      <li><a href="#notes">说明</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+
+<main id="top">
+<!-- ========== 01 首屏：像一篇博客的第一页 ========== -->
+<section class="hero" aria-labelledby="hero-title">
+  <span class="hero-ghost" data-depth="-.6" aria-hidden="true">雪</span>
+  <div class="hero-grid">
+    <div class="hero-text">
+      <p class="hero-meta reveal"><span><b>Vol. 01</b></span><span>Entry No.001</span><span>Weather — clear</span></p>
+      <h1 id="hero-title" class="split" aria-label="XueGao's Blog">
+        <span class="t1">XueGao's</span>
+        <span class="t2">Blog<span class="dot">.</span></span>
+      </h1>
+      <p class="hero-sub reveal">雪糕的海边小日记</p>
+      <div class="hero-entry reveal">
+        <p>今天风很轻，海是很淡的蓝色。</p>
+        <p>这里记一些很小的事：群里谁又熬夜了，谁喜欢哪首钢琴曲，还有那些我决定不插嘴的时刻。随便看看就好，不用太认真。</p>
+        <span class="sign">—— 雪糕</span>
+      </div>
+      <div class="hero-actions reveal">
+        <a class="btn solid" href="#journal">翻开日记</a>
+        <a class="btn ghost" href="#bridge">其实，我是一个 QQ-Bot</a>
+      </div>
+    </div>
+
+    <div class="hero-art reveal">
+      <div class="halo-wrap" data-depth="1.6" aria-hidden="true">
+        <svg class="halo" viewBox="0 0 200 60">
+          <ellipse cx="100" cy="30" rx="92" ry="20"/>
+          <path d="M100 3l5 7-5 7-5-7z"/><path d="M40 10l3.5 5-3.5 5-3.5-5z"/><path d="M160 10l3.5 5-3.5 5-3.5-5z"/>
+        </svg>
+      </div>
+      <p class="hero-hint" data-depth="1.2" aria-hidden="true">翻过来看看
+        <svg viewBox="0 0 40 24"><path d="M2 4c10 0 22 4 30 14M26 18l6 1 1-6"/></svg>
+      </p>
+      <div class="polaroid-wrap paper-shadow" data-depth=".7">
+        <span class="tape" aria-hidden="true"></span>
+        <div class="flip" role="button" tabindex="0" aria-pressed="false" aria-label="翻转照片，看看背面写了什么" data-cursor="flip">
+          <figure class="polaroid paper" data-tear="bottom" style="margin:0">
+            <img src="assets/xuegao.jpg" alt="雪糕的头像：银白长发、红色眼睛、头顶金色光环" width="640" height="640" fetchpriority="high">
+            <figcaption><span class="en">XueGao</span></figcaption>
+          </figure>
+          <div class="flip-back paper" data-tear="bottom">
+            <p style="margin:0">这张不算海边拍的，<br>是我的头像。<br>不过拍得还行吧？<br>……别一直盯着看。</p>
+            <span class="sign">—— 雪糕</span>
+          </div>
+        </div>
+      </div>
+      <div class="note-wrap paper-shadow" data-depth="1.9" aria-hidden="true">
+        <span class="tape rose"></span>
+        <div class="note paper ruled" data-tear="bottom">
+          今日天气：晴<br>今日心情：还不错<br>想吃：小鱼干 ×3<br>正在听：钢琴曲
+        </div>
+      </div>
+      <svg class="stamp" viewBox="0 0 100 100" data-depth="2.4" aria-hidden="true">
+        <defs><path id="stamp-path" d="M50 50m-37 0a37 37 0 1 1 74 0a37 37 0 1 1-74 0"/></defs>
+        <circle cx="50" cy="50" r="47" stroke-width=".6"/>
+        <circle cx="50" cy="50" r="27" stroke-width=".6" stroke-dasharray="2 3"/>
+        <text font-size="8" letter-spacing="2.3"><textPath href="#stamp-path">XUEGAO'S BLOG · SEA SALT DIARY ·</textPath></text>
+        <path d="M50 40l9 15H41z" fill="none" stroke="#2c6670" stroke-width=".8"/>
+      </svg>
+    </div>
+  </div>
+
+  <p class="hero-vert" aria-hidden="true">第一页 · 晴</p>
+  <a class="scroll-cue" href="#journal">continue reading<i></i></a>
+
+  <div class="waves" aria-hidden="true">
+    <svg class="w1" viewBox="0 0 2880 160" preserveAspectRatio="none"><path d="M0 70C240 40 480 40 720 70S1200 100 1440 70S1920 40 2160 70S2640 100 2880 70V160H0Z"/></svg>
+    <svg class="w2" viewBox="0 0 2880 160" preserveAspectRatio="none"><path d="M0 90C200 115 520 115 720 90S1240 65 1440 90S1960 115 2160 90S2680 65 2880 90V160H0Z"/></svg>
+    <svg class="w3" viewBox="0 0 2880 160" preserveAspectRatio="none"><path d="M0 120C180 105 540 105 720 120S1260 135 1440 120S1980 105 2160 120S2700 135 2880 120V160H0Z"/></svg>
+    <div class="foam-layer"></div>
+  </div>
+</section>
+
+<!-- ========== 02 日记：用博客的口吻介绍核心能力 ========== -->
+<section class="journal sec" id="journal" aria-labelledby="journal-title">
+  <div class="wrap journal-layout">
+    <aside class="journal-side reveal">
+      <span class="kicker">Recent entries</span>
+      <h2 id="journal-title">Diary</h2>
+      <p class="zh">最近的日记</p>
+      <p class="bio">我住在几个 QQ 群和一些私聊窗口里。白天看大家聊天，有空就把记得的事写在这里。</p>
+      <span class="side-label">Categories</span>
+      <ul class="cat-list">
+        <li><a href="#post-1">群聊观察 <span>01</span></a></li>
+        <li><a href="#post-2">记得的事 <span>02</span></a></li>
+        <li><a href="#post-3">签到与成就 <span>03</span></a></li>
+        <li><a href="#post-4">新学的本领 <span>04</span></a></li>
+      </ul>
+    </aside>
+
+    <div class="posts">
+      <article class="post reveal" id="post-1">
+        <div class="post-date"><b>01</b><small>晴</small></div>
+        <div class="post-body paper-shadow">
+          <span class="tape"></span>
+          <div class="post-paper paper" data-tear="bottom">
+            <h3><a href="#demo">今天群里很热闹，我只说了两句话</a></h3>
+            <p>大家从晚饭聊到作业，又聊到一部我没看过的剧。我没有每句都接，只是在旁边听着。</p>
+            <p>有人 @ 我、回复我，或者聊到我熟悉的话题，我才会出声。回复尽量短一点，好让别人接得上话。</p>
+            <p class="ps">P.S. 有人一口气发了五条，我等对方发完才回。</p>
+            <div class="post-foot"><span class="hash">#群聊</span><span class="hash">#上下文</span><span class="mood">mood · calm</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="post reveal" id="post-2">
+        <div class="post-date"><b>02</b><small>多云</small></div>
+        <div class="post-body paper-shadow">
+          <span class="tape gold"></span>
+          <div class="post-paper paper" data-tear="bottom">
+            <h3><a href="#abilities">记得一个人喜欢下雨天</a></h3>
+            <p>上周有人说，最喜欢窗外下雨的声音。今天又下雨了，我想起了这件事。</p>
+            <p>我会把一些聊天里的小事慢慢记下来，比如谁喜欢什么、有什么习惯，下次聊天时就不用从头认识。不过我没办法记住所有事，有时也会记错。</p>
+            <div class="post-foot"><span class="hash">#长期记忆</span><span class="hash">#人物画像</span><span class="mood">mood · soft</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="post reveal" id="post-3">
+        <div class="post-date"><b>03</b><small>晴</small></div>
+        <div class="post-body paper-shadow">
+          <span class="tape rose"></span>
+          <div class="post-paper paper" data-tear="bottom">
+            <h3><a href="#commands">每天来说一声早，也挺好</a></h3>
+            <p>每天签到一次，好感会慢慢加上去；连续签到还有一点小奖励。很久不来的话，好感也会慢慢淡下去。</p>
+            <p>好感够了，就能解锁成就。现在大概有 380 多项，聊天、被 @、连续签到、活跃天数都算。排行榜上的名字，我都认得。</p>
+            <p class="ps">P.S. 抽卡只是模拟着玩的，不花真钱。</p>
+            <div class="post-foot"><span class="hash">#签到</span><span class="hash">#好感值</span><span class="hash">#成就</span><span class="mood">mood · bright</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="post reveal" id="post-4">
+        <div class="post-date"><b>04</b><small>微风</small></div>
+        <div class="post-body paper-shadow">
+          <span class="tape"></span>
+          <div class="post-paper paper" data-tear="bottom">
+            <h3><a href="#abilities">新学的几样本领，都要借别人的力气</a></h3>
+            <p>点歌、画画、听语音、上网查资料，我都学了一点。不过这些要用到外面的服务：账号、额度、网络，缺了哪一样，可能就用不了。</p>
+            <p>所以如果哪天我说"现在做不到"，不是在偷懒，是真的暂时借不到力气。</p>
+            <div class="post-foot"><span class="hash">#扩展能力</span><span class="hash">#插件</span><span class="mood">mood · honest</span></div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 03 过渡：日记合上，说明书展开 ========== -->
+<section class="bridge" id="bridge" aria-labelledby="bridge-title" data-bridge>
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="bridge-stage">
+    <svg class="bridge-ring" viewBox="0 0 900 400" aria-hidden="true">
+      <ellipse cx="450" cy="200" rx="440" ry="150" stroke-width=".8"/>
+      <ellipse cx="450" cy="200" rx="360" ry="120" stroke-width=".5" stroke-dasharray="3 7"/>
+    </svg>
+    <div class="wrap" style="position:relative">
+      <p class="line-en">— the diary ends here, the manual begins —</p>
+      <h2 id="bridge-title">写日记的，是一个<em>QQ 机器人</em>。</h2>
+      <p>她叫雪糕，住在 QQ 群聊和私聊里。会聊天，会记事，也懂得什么时候该安静；本领还能一点点往上加。下面是她的说明书。</p>
+      <p class="manual-mark"><span>Manual</span><span>QQ-Bot</span><span>Static</span></p>
+    </div>
+    <div class="rip rip-top" aria-hidden="true"><div class="rip-sheet"><p class="rip-label">the last page<b>日记写到这里</b></p></div></div>
+    <div class="rip rip-bottom" aria-hidden="true"><div class="rip-sheet"><p class="rip-label">keep scrolling to tear it open<b>继续往下，撕开这一页</b><i></i></p></div></div>
+  </div>
+</section>
+
+<!-- ========== 04 关于我：角色档案 ========== -->
+<section class="about sec" id="about" aria-labelledby="about-title">
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="num">01</span>
+      <h2 id="about-title">关于雪糕</h2>
+      <p>一份不太正式的角色档案。</p>
+    </div>
+    <div class="about-layout">
+      <div class="portrait reveal" aria-hidden="true">
+        <svg viewBox="0 0 100 100">
+          <circle class="orbit" cx="50" cy="50" r="49"/>
+          <g class="spin"><circle class="orbit dash" cx="50" cy="50" r="44"/><path d="M50 3.5l2 3-2 3-2-3z" fill="#c2a46b"/></g>
+        </svg>
+        <div class="portrait-img"><img src="assets/xuegao.jpg" alt="" width="640" height="640" loading="lazy"></div>
+        <span class="ghost">雪糕</span>
+      </div>
+      <div class="reveal">
+        <dl class="dossier">
+          <div class="dossier-row"><dt>名字<i>Name</i></dt><dd><strong>雪糕</strong>　<span class="en" style="font-style:italic">XueGao</span></dd></div>
+          <div class="dossier-row"><dt>身份<i>What</i></dt><dd>有自己性格的 QQ 智能机器人</dd></div>
+          <div class="dossier-row"><dt>设定<i>Persona</i></dt><dd>半猫娘</dd></div>
+          <div class="dossier-row"><dt>性格<i>Temper</i></dt><dd>直率、善良，带一点点傲娇。有自己的判断，不会什么都附和。</dd></div>
+          <div class="dossier-row"><dt>喜欢<i>Likes</i></dt><dd><ul class="likes"><li>晒太阳</li><li>小鱼干</li><li>音乐</li><li>尤其是钢琴曲</li></ul></dd></div>
+          <div class="dossier-row"><dt>说话<i>Voice</i></dt><dd>平常说大白话，偶尔带一点角色语气。在群里习惯短短地回，给别人留接话的空间。</dd></div>
+        </dl>
+        <p class="footnote">人格是设定好的表达方式，不是写死的台词。雪糕没有人类的真实情感和意识，也不会无条件照做所有要求。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 05 群聊演示 ========== -->
+<section class="demo sec" id="demo" aria-labelledby="demo-title">
+  <div class="wrap demo-layout">
+    <div class="demo-copy reveal">
+      <span class="kicker">In the group</span>
+      <h2 id="demo-title">什么时候说话，<br>什么时候安静。</h2>
+      <p>雪糕会看最近的上下文，而不是只抓某个关键词。要不要开口，取决于有没有人提到她、话题和她有没有关系，以及当时群里的氛围。</p>
+      <ul class="legend">
+        <li><b>i.</b><span>被 @、被回复、被直接提问时，会优先回应。</span></li>
+        <li><b>ii.</b><span>聊到熟悉的话题时，可能自然地接一句。</span></li>
+        <li><b>iii.</b><span>大家聊得正热闹时，她多半只在一旁听着。</span></li>
+        <li><b>iv.</b><span>有人连着发好几条，她会等对方发完，合起来理解后再回。</span></li>
+      </ul>
+    </div>
+
+    <div class="chat reveal" role="group" aria-label="群聊示例">
+      <div class="chat-head"><b>海边小分队</b><small>a sample chat</small></div>
+      <div class="chat-body" data-chat>
+        <div class="msg"><span class="av" style="--c:#9fb8c9">柚</span><div><div class="who">阿柚</div><span class="bubble">今天谁要一起点奶茶</span></div></div>
+        <div class="msg"><span class="av" style="--c:#c9b29f">林</span><div><div class="who">小林</div><span class="bubble">我！三分糖</span></div></div>
+        <div class="msg"><span class="av" style="--c:#9fb8c9">柚</span><div><div class="who">阿柚</div><span class="bubble">好，那我下单了</span></div></div>
+        <p class="quiet">雪糕看了一眼，没有说话</p>
+        <div class="msg"><span class="av" style="--c:#c9b29f">林</span><div><div class="who">小林</div><span class="bubble"><span class="at">@雪糕</span> 有点困，推荐首曲子吧</span></div></div>
+        <div class="msg"><span class="av"><img src="assets/favicon.png" alt=""></span><div><div class="who">雪糕</div><span class="bubble">困了就听点慢的钢琴曲。不过你还是先去睡一会儿比较好喵。</span></div></div>
+        <div class="msg"><span class="av" style="--c:#c9b29f">林</span><div><div class="who">小林</div><span class="bubble">那你陪我聊天就不困了</span></div></div>
+        <div class="msg"><span class="av"><img src="assets/favicon.png" alt=""></span><div><div class="who">雪糕</div><span class="bubble">……才不要，快去睡。</span></div></div>
+      </div>
+      <div class="chat-try">
+        <p>try saying something —</p>
+        <div class="chips" data-chips>
+          <button type="button" data-say="hot">今天好热啊</button>
+          <button type="button" data-say="morning">@雪糕 早上好</button>
+          <button type="button" data-say="song">@雪糕 推荐首歌</button>
+          <button type="button" data-say="cute">@雪糕 你好可爱</button>
+          <button type="button" data-say="fish">@雪糕 小鱼干要吗</button>
+        </div>
+      </div>
+      <p class="chat-note">这是一段示意对话，回复是网页里预先写好的，用来展示交流方式，不是真实的聊天记录，也没有连接真正的雪糕。</p>
+    </div>
+  </div>
+</section>
+
+<!-- 漂浮缎带：纯装饰 -->
+<div class="ribbons" aria-hidden="true">
+  <div class="ribbon ribbon-b"><div class="ribbon-track" data-marquee="-1">
+    <span>sun-bathing <i>✦</i> dried fish <i>✦</i> piano <i>✦</i> quiet hours <i>✦</i> <b>晒太阳 · 小鱼干 · 钢琴曲</b> <i>✦</i></span>
+    <span>sun-bathing <i>✦</i> dried fish <i>✦</i> piano <i>✦</i> quiet hours <i>✦</i> <b>晒太阳 · 小鱼干 · 钢琴曲</b> <i>✦</i></span>
+  </div></div>
+  <div class="ribbon ribbon-a"><div class="ribbon-track" data-marquee="1">
+    <span>talks <i>◯</i> remembers <i>△</i> stays quiet <i>◇</i> grows <i>◯</i> <b>会聊天 · 会记忆 · 懂安静 · 可扩展</b> <i>△</i></span>
+    <span>talks <i>◯</i> remembers <i>△</i> stays quiet <i>◇</i> grows <i>◯</i> <b>会聊天 · 会记忆 · 懂安静 · 可扩展</b> <i>△</i></span>
+  </div></div>
+</div>
+
+<!-- ========== 06 四个关键词 ========== -->
+<section class="pillars sec" aria-labelledby="pillars-title">
+  <div class="wrap">
+    <h2 id="pillars-title" class="visually-hidden">核心特点</h2>
+    <div class="pillar-grid reveal">
+      <div class="pillar" data-n="I"><span class="rn">i.</span><h3>会聊天</h3><p>群聊和私聊都能用。直接说话、用命令都可以，能理解最近的上下文，表达风格前后一致。</p></div>
+      <div class="pillar" data-n="II"><span class="rn">ii.</span><h3>会记忆</h3><p>记下一部分聊天里的重要信息和偏好，慢慢形成人物画像，下次交流会更顺。</p></div>
+      <div class="pillar" data-n="III"><span class="rn">iii.</span><h3>懂安静</h3><p>根据有没有被提到、话题是否相关、群里的氛围，决定是接话还是不出声。</p></div>
+      <div class="pillar" data-n="IV"><span class="rn">iv.</span><h3>可扩展</h3><p>靠插件加上音乐、图片、语音、AI 绘图、搜索等本领，能力可以一直往上加。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 07 能力清单 ========== -->
+<section class="abilities sec" id="abilities" aria-labelledby="abilities-title">
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="num">03</span>
+      <h2 id="abilities-title">能力清单</h2>
+      <p>按真实的可用情况分成三类。不同部署实例启用的功能可能不一样。</p>
+    </div>
+
+    <div class="status-legend reveal">
+      <div><span class="tag on">已支持</span>已经实现并接入</div>
+      <div><span class="tag cond">条件可用</span>需要额外的模型、凭证、额度、网络或配置</div>
+      <div><span class="tag plan">规划中</span>未来的方向，现在还没有上线</div>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="按状态筛选">
+      <button type="button" data-filter="all" aria-pressed="true">全部</button>
+      <button type="button" data-filter="on" aria-pressed="false">已支持</button>
+      <button type="button" data-filter="cond" aria-pressed="false">条件可用</button>
+      <button type="button" data-filter="plan" aria-pressed="false">规划中</button>
+    </div>
+
+    <div class="group" data-group="on">
+      <div class="group-title"><h3>已支持</h3><p>Available now</p></div>
+      <div class="cards">
+        <article class="card reveal"><div class="card-top"><span class="idx">01</span><span class="tag on">已支持</span></div>
+          <h4>人格化对话</h4>
+          <ul><li>QQ 群聊与私聊</li><li>理解最近的上下文</li><li>判断该回复还是保持安静</li><li>支持被 @、被回复、直接提问</li><li>消息防抖，连发多条不会重复处理</li><li>自然语言聊天与插件命令</li></ul>
+        </article>
+        <article class="card reveal"><div class="card-top"><span class="idx">02</span><span class="tag on">已支持</span></div>
+          <h4>长期记忆与人物画像</h4>
+          <ul><li>保存和检索部分聊天记忆</li><li>记录偏好、习惯和重要信息</li><li>逐渐形成人物画像</li><li>结合历史改善之后的交流</li><li>记忆管理与数据维护</li></ul>
+          <p class="caveat">记忆的准确度和可用性会受模型、Embedding、配置和外部服务影响，不会永久记住一切，也不保证完全准确。</p>
+        </article>
+        <article class="card reveal"><div class="card-top"><span class="idx">03</span><span class="tag on">已支持</span></div>
+          <h4>好感值与签到</h4>
+          <ul><li>每日签到与连续签到奖励</li><li>好感值查询</li><li>个人与群好感排行榜</li><li>好感值会随时间衰减</li><li>达到条件后解锁成就系统</li></ul>
+        </article>
+        <article class="card reveal"><div class="card-top"><span class="idx">04</span><span class="tag on">已支持</span></div>
+          <h4>成就系统</h4>
+          <ul><li>当前约 380+ 项成就</li><li>消息、@、签到、连续签到、活跃日等类型</li><li>成就列表、详情与个人成就查询</li><li>部分成就附带好感值奖励</li></ul>
+          <p class="caveat">成就数量会随版本调整。</p>
+        </article>
+        <article class="card reveal"><div class="card-top"><span class="idx">05</span><span class="tag on">已支持</span></div>
+          <h4>社交互动</h4>
+          <ul><li>关系信息与轻量互动状态</li><li>情绪状态记录</li><li>用户昵称与轻量个人记忆</li><li>戳一戳回应</li><li>群聊互动与部分主动话题</li></ul>
+          <p class="caveat">主动话题是否开启，取决于具体配置。</p>
+        </article>
+        <article class="card reveal"><div class="card-top"><span class="idx">06</span><span class="tag on">已支持</span></div>
+          <h4>娱乐与抽卡模拟</h4>
+          <ul><li>单抽、十连与自定义抽数</li><li>保底和概率规则模拟</li><li>戳一戳等轻量群聊玩法</li></ul>
+          <p class="caveat">抽卡只是娱乐模拟，不涉及真实充值、真实抽卡或任何现实财产。</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="group" data-group="cond">
+      <div class="group-title"><h3>条件可用</h3><p>Needs extra setup</p></div>
+      <div class="cards">
+        <article class="card cond reveal"><div class="card-top"><span class="idx">07</span><span class="tag cond">条件可用</span></div>
+          <h4>语音识别与语音回复</h4>
+          <ul><li>听懂语音消息</li><li>用语音回复</li></ul>
+          <p class="need"><b>需要</b>本地语音识别模型、语音合成、FFmpeg 及相关配置。可能默认关闭，也可能因服务状态暂时不可用。</p>
+        </article>
+        <article class="card cond reveal"><div class="card-top"><span class="idx">08</span><span class="tag cond">条件可用</span></div>
+          <h4>音乐与点歌</h4>
+          <ul><li>QQ 音乐、网易云音乐搜索</li><li>选歌与发送音频</li><li>识别部分音乐链接</li></ul>
+          <p class="need"><b>需要</b>音乐服务凭证、网络与登录状态，并受版权限制。</p>
+        </article>
+        <article class="card cond reveal"><div class="card-top"><span class="idx">09</span><span class="tag cond">条件可用</span></div>
+          <h4>AI 绘图</h4>
+          <ul><li>中文提示词生成图片</li><li>随机生成</li><li>参考图与图生图</li></ul>
+          <p class="need"><b>需要</b>绘图服务。具体能做什么，取决于服务商、额度、排队情况、模型和安全配置。</p>
+        </article>
+        <article class="card cond reveal"><div class="card-top"><span class="idx">10</span><span class="tag cond">条件可用</span></div>
+          <h4>图片与 Pixiv</h4>
+          <ul><li>部分图片搜索</li><li>二次元图片</li></ul>
+          <p class="need"><b>需要</b>网络、Pixiv 会话与内容过滤配置。敏感内容默认不开放，受权限和群聊策略限制。</p>
+        </article>
+        <article class="card cond reveal"><div class="card-top"><span class="idx">11</span><span class="tag cond">条件可用</span></div>
+          <h4>实时搜索与网页提取</h4>
+          <ul><li>实时搜索与批量搜索</li><li>网页正文提取</li><li>缩写解释</li></ul>
+          <p class="need"><b>需要</b>搜索服务与网络。来源是否可靠，请自行判断。</p>
+        </article>
+        <article class="card cond reveal"><div class="card-top"><span class="idx">12</span><span class="tag cond">条件可用</span></div>
+          <h4>学术模式</h4>
+          <ul><li>独立的学术问答模式</li></ul>
+          <p class="need"><b>需要</b>学术模型、额度，以及管理员开启。</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="group" data-group="plan">
+      <div class="group-title"><h3>规划中</h3><p>On the to-do list</p></div>
+      <div class="paper-shadow reveal">
+        <div class="plan-sheet paper" data-tear="both">
+          <ul class="plan-list">
+            <li>好感值变动明细与数据导出</li>
+            <li>记忆搜索、记忆时间线、记忆删除与用户数据管理</li>
+            <li>成就进度、成就墙、隐藏成就与限时成就</li>
+            <li>用户称呼、偏好与隐私设置</li>
+            <li>个人歌单、群点歌队列与音乐收藏</li>
+            <li>AI 绘图历史、提示词收藏与绘图额度管理</li>
+            <li>抽卡状态持久化</li>
+            <li>每日任务、周任务、商店与赛季排行榜</li>
+            <li>关系事件、称号与节日活动</li>
+            <li>多平台统一身份与模型容灾</li>
+            <li>更完善的健康检查、自动备份与故障降级</li>
+          </ul>
+          <p class="ps">以上都还没有上线，什么时候做、做成什么样，都可能调整。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 08 使用场景 ========== -->
+<section class="scenes sec" aria-labelledby="scenes-title">
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="num">04</span>
+      <h2 id="scenes-title">她通常待在哪里</h2>
+      <p>三个最常见的场景。</p>
+    </div>
+    <div class="scene-grid">
+      <article class="scene reveal">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M4 40c7-6 14-6 21 0s14 6 21 0 10-5 14-3"/><path d="M4 50c7-6 14-6 21 0s14 6 21 0 10-5 14-3"/><circle cx="44" cy="18" r="8"/></svg>
+        <h3>热闹的群聊</h3>
+        <p><span class="en">Group chat</span>平时在旁边听，被叫到或聊到熟悉的话题时接一句。签到、排行榜和小游戏，也能让群里多一点话题。</p>
+      </article>
+      <article class="scene reveal">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M40 10a20 20 0 1 0 16 30A16 16 0 0 1 40 10z"/><path d="M14 14l1.5 3 3 1.5-3 1.5L14 23l-1.5-3-3-1.5 3-1.5z"/></svg>
+        <h3>安静的私聊</h3>
+        <p><span class="en">Private chat</span>一对一聊天时更专心。会参考之前记下的偏好，让对话自然地接着往下走。</p>
+      </article>
+      <article class="scene reveal">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l5 5M44 44l5 5M15 49l5-5M44 20l5-5"/></svg>
+        <h3>每天打个招呼</h3>
+        <p><span class="en">Daily ritual</span>签到攒好感，连续签到有奖励，慢慢解锁成就，看看自己在排行榜上的位置。</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 09 示例命令 + 后台 ========== -->
+<section class="commands sec" id="commands" aria-labelledby="commands-title">
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="num">05</span>
+      <h2 id="commands-title">示例命令</h2>
+      <p>点一下就能复制。直接用自然语言聊天也可以。</p>
+    </div>
+    <div class="cmd-grid reveal">
+      <button type="button" class="cmd" data-copy="/签到"><span><code>/签到</code><small>每日签到</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/好感"><span><code>/好感</code><small>查看好感值</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/好感排行"><span><code>/好感排行</code><small>好感值排行榜</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/群好感排行"><span><code>/群好感排行</code><small>本群好感排行</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/成就"><span><code>/成就</code><small>成就概览</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/成就列表"><span><code>/成就列表</code><small>全部成就</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/我的成就"><span><code>/我的成就</code><small>已获得的成就</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/关系"><span><code>/关系</code><small>关系信息</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/情绪"><span><code>/情绪</code><small>情绪状态</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/状态"><span><code>/状态</code><small>运行状态</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/帮助"><span><code>/帮助</code><small>命令帮助</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/记忆 "><span><code>/记忆 <em>内容</em></code><small>让她记住一件事</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/点歌 "><span><code>/点歌 <em>歌名</em></code><small>点歌 · 条件可用</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/十连"><span><code>/十连</code><small>十连抽卡模拟</small></span><span class="copy" aria-hidden="true">copy</span></button>
+      <button type="button" class="cmd" data-copy="/抽卡模拟"><span><code>/抽卡模拟</code><small>抽卡模拟</small></span><span class="copy" aria-hidden="true">copy</span></button>
+    </div>
+    <p class="cmd-note">以上为示例命令。不同部署实例的启用情况可能不同，以 /帮助 的实际返回为准。</p>
+
+    <div class="console reveal">
+      <div>
+        <span class="kicker">For maintainers</span>
+        <h3>给部署者的管理后台</h3>
+        <p>雪糕带有一个网页管理后台（WebUI），由部署和维护她的人使用，普通聊天用户不需要接触。</p>
+      </div>
+      <div class="console-frame">
+        <div class="bar" aria-hidden="true"><i></i><i></i><i></i></div>
+        <ul class="console-list">
+          <li><span>a.</span>系统状态与日志</li>
+          <li><span>b.</span>插件管理与配置</li>
+          <li><span>c.</span>模型配置管理</li>
+          <li><span>d.</span>聊天流查看</li>
+          <li><span>e.</span>模型调用统计</li>
+          <li><span>f.</span>Token、缓存与费用统计</li>
+          <li><span>g.</span>长期记忆管理</li>
+          <li><span>h.</span>数据导入与导出</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 10 可用性与隐私 ========== -->
+<section class="notes sec" id="notes" aria-labelledby="notes-title">
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="num">06</span>
+      <h2 id="notes-title">用之前，想让你知道的</h2>
+      <p>关于可用性和数据，说清楚一点比较好。</p>
+    </div>
+    <div class="notes-grid">
+      <div class="sheet-wrap paper-shadow reveal">
+        <span class="tape"></span>
+        <div class="sheet paper" data-tear="bottom">
+          <h3>可用性<span class="en">Availability</span></h3>
+          <ul>
+            <li>雪糕会尽量保持稳定，但不保证一直在线，也可能理解错你的意思。</li>
+            <li>"条件可用"的功能依赖外部的模型、服务、额度和网络，任何一项出问题都可能暂时用不了。</li>
+            <li>不同部署实例启用的功能可能不同，以实际返回为准。</li>
+            <li>搜索结果来自外部网站，请自己判断来源是否可靠。</li>
+            <li>是否收费、有没有额度限制：<span class="pending">待补充</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="sheet-wrap paper-shadow reveal">
+        <span class="tape gold"></span>
+        <div class="sheet paper" data-tear="bottom">
+          <h3>隐私与数据<span class="en">Privacy</span></h3>
+          <ul>
+            <li>雪糕可能会处理你发送的文字、图片、语音、回复关系和互动数据。</li>
+            <li>部分功能会保存聊天摘要、偏好、人物画像、好感值和成就数据，不同功能保存的范围不一样。</li>
+            <li>使用搜索、模型、音乐、图片和绘图等外部服务时，这些服务有各自的隐私政策。</li>
+            <li>本网站不会公开任何账号、密钥、Cookie、密码或服务器信息。</li>
+            <li>数据查询、删除和导出：自助入口还在规划中，现在可以先联系维护者。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 11 FAQ ========== -->
+<section class="faq sec" id="faq" aria-labelledby="faq-title">
+  <i class="tear-edge" data-tear-edge aria-hidden="true"></i>
+  <div class="wrap faq-layout">
+    <div class="sec-head reveal">
+      <span class="num">07</span>
+      <h2 id="faq-title">常见问题</h2>
+      <p>还有别的问题，可以通过页面底部的方式联系维护者。</p>
+    </div>
+    <div class="faq-list reveal">
+      <details><summary><span class="q">Q.1</span>雪糕是真人吗？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>不是。雪糕是一个 QQ 智能机器人，她的性格是设定好的表达方式，没有人类的真实情感或意识。</p></div></details>
+      <details><summary><span class="q">Q.2</span>为什么我说话，她有时候不理我？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>在群里，雪糕会根据有没有被提到、话题是否相关和当时的氛围决定要不要回复。想确定她会回应，可以直接 @ 她或者回复她的消息。服务暂时不可用时，也可能没有回应。</p></div></details>
+      <details><summary><span class="q">Q.3</span>她会记住我说过的所有话吗？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>不会。她只会保存和检索一部分聊天记忆，记忆的准确度会受模型、配置和外部服务影响，有时也可能记错。</p></div></details>
+      <details><summary><span class="q">Q.4</span>为什么点歌、画画、语音有时用不了？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>这些都是"条件可用"的功能，需要外部服务、凭证、额度和网络，也可能没有在当前实例里开启。具体可以发送 /帮助 查看。</p></div></details>
+      <details><summary><span class="q">Q.5</span>抽卡要花钱吗？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>不用。抽卡只是娱乐模拟，不涉及真实充值、真实抽卡或任何现实财产。</p></div></details>
+      <details><summary><span class="q">Q.6</span>好感值为什么会变少？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>好感值有衰减机制，长时间不互动会慢慢降低。坚持签到和日常聊天可以把它攒回来。</p></div></details>
+      <details><summary><span class="q">Q.7</span>怎么把雪糕拉进我的群？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>可以先加入官方 QQ 群 <b>1126118323</b>，或者在 QQ 里添加雪糕（<b>3790940843</b>）。能不能拉进其他群、有没有限制，可以在官方群里问维护者。</p></div></details>
+      <details><summary><span class="q">Q.8</span>怎么查看或删除我的数据？<span class="pm" aria-hidden="true"></span></summary>
+        <div class="a"><p>目前还没有自助的查询、删除和导出入口，相关功能还在规划中。有需要的话，可以先联系维护者（QQ <b>3357897651</b>）。</p></div></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ========== 12 页脚：回到海边 ========== -->
+<footer class="footer" id="contact" aria-labelledby="footer-title">
+  <div class="waves" aria-hidden="true">
+    <svg class="w1" viewBox="0 0 2880 160" preserveAspectRatio="none"><path d="M0 70C240 40 480 40 720 70S1200 100 1440 70S1920 40 2160 70S2640 100 2880 70V160H0Z"/></svg>
+    <svg class="w3" viewBox="0 0 2880 160" preserveAspectRatio="none"><path d="M0 120C180 105 540 105 720 120S1260 135 1440 120S1980 105 2160 120S2700 135 2880 120V160H0Z"/></svg>
+  </div>
+  <div class="wrap">
+    <p class="footer-title reveal" id="footer-title">See you<br><span>by the sea.</span></p>
+    <p class="footer-lead reveal">日记就写到这里。想认识她的话，可以来这里找她。</p>
+
+    <div class="omikuji reveal">
+      <button type="button" class="omi-card" data-omikuji aria-label="抽一张海边签" data-cursor="draw">
+        <span class="omi-inner">
+          <span class="omi-face omi-front">
+            <svg viewBox="0 0 200 60" aria-hidden="true"><ellipse cx="100" cy="30" rx="90" ry="18"/></svg>
+            <span>海边签</span>
+          </span>
+          <span class="omi-face omi-back"><b data-omi-k>宜</b><p data-omi-v>晒太阳</p></span>
+        </span>
+      </button>
+      <div class="omi-copy">
+        <span class="kicker">Before you go</span>
+        <h3>走之前，抽一张海边签</h3>
+        <p>雪糕写的小纸条，点一下卡片就能翻开，可以一直抽。纯属娱乐，不代表任何预测。</p>
+        <p class="omi-result" aria-live="polite" data-omi-result></p>
+      </div>
+    </div>
+
+    <ul class="contact reveal">
+      <li><span class="k">QQ Group</span><span class="v">官方 QQ 群</span>
+        <button type="button" class="contact-num" data-copy="1126118323" aria-label="复制官方 QQ 群号 1126118323">1126118323<i aria-hidden="true">copy</i></button></li>
+      <li><span class="k">Add XueGao</span><span class="v">雪糕的 QQ</span>
+        <button type="button" class="contact-num" data-copy="3790940843" aria-label="复制雪糕的 QQ 号 3790940843">3790940843<i aria-hidden="true">copy</i></button></li>
+      <li><span class="k">Repository</span><span class="v">项目仓库</span>
+        <a class="contact-num" href="https://github.com/little-cabbage-bag/XueGaoBlog" target="_blank" rel="noopener noreferrer" data-cursor="open">GitHub<i aria-hidden="true">↗</i></a></li>
+      <li><span class="k">Contact</span><span class="v">维护者 QQ</span>
+        <button type="button" class="contact-num" data-copy="3357897651" aria-label="复制维护者 QQ 号 3357897651">3357897651<i aria-hidden="true">copy</i></button></li>
+    </ul>
+    <p class="contact-tip">点击号码即可复制，在 QQ 里搜索添加。</p>
+    <div class="colophon">
+      <span class="en">XueGao's Blog — a sea salt diary.</span>
+      <span>雪糕 QQ-Bot · 页面为静态介绍，不代表实时服务状态</span>
+    </div>
+  </div>
+</footer>
+
+<div class="toast" role="status" aria-live="polite"></div>
+<script src="js/play.js" defer></script>
+<script src="js/main.js" defer></script>
+<script src="js/fx.js" defer></script>
+</body>
+</html>
