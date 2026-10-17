@@ -1,0 +1,110 @@
+/* ===== 命令 · 后台 · 说明 · FAQ · 页脚 ===== */
+
+/* --- 示例命令：一排可以撕下来的票根 --- */
+.commands { background: var(--paper); --edge: var(--paper); }
+.cmd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr)); gap: .9rem; }
+.cmd {
+  position: relative; display: flex; justify-content: space-between; align-items: center; gap: .8rem;
+  width: 100%; text-align: left; cursor: pointer; padding: 1rem 1.1rem 1rem 1.3rem;
+  background: var(--paper-card); border: 1px solid var(--line); border-radius: 3px;
+  transition: border-color .3s, transform .4s var(--ease), background .3s;
+}
+.cmd::after { content: ""; position: absolute; right: 3.2rem; top: 8px; bottom: 8px; border-left: 1px dashed var(--line); }
+.cmd:hover { border-color: var(--sea-3); transform: translateY(-2px); }
+.cmd code { font: 500 .95rem/1.2 var(--mono); color: var(--ink); }
+.cmd code em { font-style: normal; color: var(--ink-mute); }
+.cmd small { display: block; font-size: .76rem; color: var(--ink-mute); margin-top: .35rem; }
+.cmd .copy { flex: none; width: 1.6rem; text-align: center; font: italic 500 .8rem/1 var(--serif-en); color: var(--sea-ink); }
+.cmd.copied { background: var(--mist); border-color: var(--sea-3); }
+.cmd-note { margin-top: 1.8rem; font-size: .85rem; color: var(--ink-mute); }
+
+/* --- 后台 --- */
+.console { margin-top: 6rem; display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center; }
+.console h3 { font: 500 1.6rem/1.4 var(--serif-zh); letter-spacing: .06em; margin: 1rem 0; }
+.console p { color: var(--ink-soft); font-size: .95rem; }
+.console-frame { border: 1px solid var(--line); border-radius: 10px; background: var(--paper-card); overflow: hidden; box-shadow: var(--shadow-paper); }
+.console-frame .bar { display: flex; gap: .4rem; padding: .7rem .9rem; border-bottom: 1px solid var(--line); background: var(--paper-warm); }
+.console-frame .bar i { width: .55rem; height: .55rem; border-radius: 50%; background: var(--mist-deep); }
+.console-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; }
+.console-list li { padding: 1rem 1.2rem; font-size: .9rem; color: var(--ink-soft); border-bottom: 1px solid var(--line); display: flex; gap: .7rem; align-items: baseline; }
+.console-list li:nth-child(odd) { border-right: 1px solid var(--line); }
+.console-list li span { font: italic 500 .85rem/1 var(--serif-en); color: var(--sea-3); }
+
+/* --- 说明：两张纸 --- */
+.notes { background: var(--mist); --edge: var(--mist); }
+.notes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.4rem; align-items: start; }
+.sheet-wrap { position: relative; }
+.sheet-wrap:nth-child(1) { transform: rotate(-.6deg); }
+.sheet-wrap:nth-child(2) { transform: rotate(.8deg); margin-top: 2.5rem; }
+.sheet-wrap .tape { top: -12px; left: 45%; transform: rotate(-2deg); }
+.sheet { padding: 2.6rem 2.4rem 3.4rem; }
+.sheet h3 { font: 500 1.3rem/1.4 var(--serif-zh); letter-spacing: .1em; margin-bottom: 1.4rem; display: flex; align-items: baseline; gap: .8rem; }
+.sheet h3 .en { font-style: italic; font-size: 1rem; color: var(--ink-mute); letter-spacing: 0; }
+.sheet ul { list-style: none; display: grid; gap: .85rem; }
+.sheet li { position: relative; padding-left: 1.3rem; font-size: .92rem; color: var(--ink-soft); line-height: 1.85; }
+.sheet li::before { content: ""; position: absolute; left: 0; top: .8em; width: .45rem; height: 1px; background: var(--sea-ink); }
+.pending { display: inline-block; font-size: .75rem; padding: .1em .55em; border: 1px dashed var(--red); color: var(--red); border-radius: 3px; margin-left: .3em; letter-spacing: .06em; }
+
+/* --- FAQ --- */
+.faq { background: var(--paper); --edge: var(--paper); }
+.faq-layout { display: grid; grid-template-columns: 1fr 1.8fr; gap: 5rem; align-items: start; }
+.faq-layout .sec-head { position: sticky; top: 7rem; grid-template-columns: 1fr; }
+.faq-layout .sec-head .num { grid-row: auto; }
+.faq-list { border-top: 1px solid var(--ink); }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 2.6rem 1fr 1.4rem; gap: .6rem; align-items: baseline; padding: 1.5rem 0; font: 500 1.08rem/1.5 var(--serif-zh); letter-spacing: .04em; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary .q { font: italic 400 1.1rem/1 var(--serif-en); color: var(--sea-3); }
+.faq summary .pm { position: relative; width: 1rem; height: 1rem; align-self: center; }
+.faq summary .pm::before, .faq summary .pm::after { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: var(--ink); transition: transform .4s var(--ease); }
+.faq summary .pm::after { transform: rotate(90deg); }
+.faq details[open] summary .pm::after { transform: rotate(0); }
+.faq summary:hover { color: var(--sea-ink); }
+.faq .a { padding: 0 2rem 1.6rem 3.2rem; color: var(--ink-soft); font-size: .95rem; }
+.faq .a p:last-child { margin: 0; }
+
+/* --- 页脚：回到海边 --- */
+.footer { position: relative; overflow: hidden; padding: 10rem 0 3rem; background: linear-gradient(180deg, var(--paper) 0%, #e6f0f1 40%, var(--sea-1) 100%); }
+.footer .waves { top: -1px; bottom: auto; transform: scaleY(-1); height: 7rem; }
+.footer .waves .w3 { fill: var(--paper); }
+.footer-title { font: italic 400 clamp(3.4rem, 12vw, 10rem)/.95 var(--serif-en); letter-spacing: -.02em; text-align: center; color: var(--sea-ink); }
+.footer-title span { color: var(--sea-3); }
+.footer-lead { text-align: center; font: 500 1.1rem/1.9 var(--serif-zh); letter-spacing: .2em; color: var(--ink-soft); margin: 2rem 0 3.4rem; }
+.contact { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid rgba(35,39,43,.25); border-bottom: 1px solid rgba(35,39,43,.25); }
+.contact li { padding: 1.5rem 1.2rem; }
+.contact li + li { border-left: 1px solid rgba(35,39,43,.18); }
+.contact dt, .contact .k { font: italic 500 .95rem/1 var(--serif-en); color: var(--sea-ink); margin-bottom: .6rem; display: block; }
+.contact .v { display: block; font-size: .85rem; color: var(--ink-mute); margin-bottom: .55rem; }
+.contact-num {
+  display: inline-flex; align-items: baseline; gap: .6rem; padding: 0; border: 0; background: none; cursor: pointer;
+  font: 500 1.25rem/1.2 var(--mono); letter-spacing: .04em; color: var(--ink); text-decoration: none;
+  background-image: linear-gradient(var(--sea-ink), var(--sea-ink)); background-size: 0 1px; background-position: 0 100%; background-repeat: no-repeat;
+  transition: background-size .5s var(--ease), color .3s;
+}
+.contact-num i { font: italic 500 .85rem/1 var(--serif-en); color: var(--sea-ink); }
+.contact-num:hover { background-size: 100% 1px; color: var(--sea-ink); }
+.contact-num.copied { color: var(--sea-ink); }
+.contact-tip { text-align: center; font-size: .82rem; color: var(--ink-mute); margin: 1.2rem 0 0; }
+.colophon { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; margin-top: 4rem; font-size: .8rem; color: var(--ink-soft); }
+.colophon .en { font-style: italic; font-size: .95rem; }
+
+/* 复制提示 */
+.toast { position: fixed; left: 50%; bottom: 2rem; z-index: 120; transform: translate(-50%, 1rem); opacity: 0; pointer-events: none; padding: .7rem 1.3rem; border-radius: 99px; background: var(--ink); color: var(--paper); font-size: .88rem; letter-spacing: .06em; transition: .4s var(--ease); }
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+@media (max-width: 900px) {
+  .console, .notes-grid, .faq-layout { grid-template-columns: 1fr; gap: 2.6rem; }
+  .sheet-wrap:nth-child(2) { margin-top: 0; }
+  .faq-layout .sec-head { position: static; }
+  .contact { grid-template-columns: 1fr 1fr; }
+  .contact li:nth-child(3) { border-left: 0; }
+  .contact li:nth-child(n+3) { border-top: 1px solid rgba(35,39,43,.18); }
+  .contact li { padding: 1.3rem .9rem; }
+  .contact-num { font-size: 1.02rem; gap: .4rem; }
+  .faq .a { padding: 0 0 1.4rem 3.2rem; }
+}
+@media (max-width: 520px) {
+  .console-list { grid-template-columns: 1fr; }
+  .console-list li:nth-child(odd) { border-right: 0; }
+  .sheet { padding: 2.2rem 1.5rem 3rem; }
+}

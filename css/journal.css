@@ -1,0 +1,88 @@
+/* ===== 日记区 · 过渡 · 关于我 ===== */
+
+section { position: relative; }
+.sec { padding: 7rem 0; }
+
+/* 撕纸分隔：JS 生成锯齿多边形，颜色取上一段的底色 */
+.tear-edge { position: absolute; left: 0; right: 0; top: -1.6rem; height: 1.7rem; background: var(--edge, var(--paper)); clip-path: var(--tear, none); z-index: 2; pointer-events: none; }
+.tear-edge.down { top: auto; bottom: -1.6rem; }
+
+/* --- 日记（博客）--- */
+.journal { padding-top: 5rem; }
+.journal-layout { display: grid; grid-template-columns: 15rem 1fr; gap: 4.5rem; align-items: start; }
+.journal-side { position: sticky; top: 6.5rem; }
+.journal-side h2 { font: italic 400 2.6rem/1 var(--serif-en); margin: 1rem 0 .4rem; }
+.journal-side .zh { font: 500 .95rem/1 var(--serif-zh); letter-spacing: .4em; color: var(--ink-mute); }
+.journal-side .bio { margin: 2rem 0; font-size: .92rem; color: var(--ink-soft); line-height: 1.95; }
+.side-label { font: italic 500 .95rem/1 var(--serif-en); color: var(--ink-mute); margin: 2rem 0 .9rem; display: block; }
+.cat-list { list-style: none; display: grid; gap: .5rem; }
+.cat-list a { display: flex; justify-content: space-between; text-decoration: none; font-size: .92rem; color: var(--ink-soft); border-bottom: 1px dashed var(--line); padding-bottom: .4rem; transition: color .3s, padding .4s var(--ease); }
+.cat-list a:hover { color: var(--sea-ink); padding-left: .4rem; }
+.cat-list a span { font-family: var(--serif-en); font-style: italic; color: var(--ink-mute); }
+
+.posts { display: grid; gap: 4.5rem; }
+.post { display: grid; grid-template-columns: 6.5rem 1fr; gap: 1.6rem; align-items: start; }
+.post:nth-child(even) { margin-left: 3.5rem; }
+.post-date { text-align: right; padding-top: 1.4rem; }
+.post-date b { display: block; font: italic 400 3.6rem/.9 var(--serif-en); color: var(--sea-3); }
+.post-date small { display: block; font: 500 .82rem/1.6 var(--serif-zh); color: var(--ink-mute); letter-spacing: .2em; margin-top: .5rem; }
+.post-body { position: relative; }
+.post-body .tape { top: -12px; left: 1.6rem; transform: rotate(-3deg); }
+.post:nth-child(3n+2) .post-body .tape { left: auto; right: 2rem; transform: rotate(4deg); }
+.post-paper { padding: 2.4rem 2.6rem 3.2rem; }
+.post h3 { font: 500 1.45rem/1.5 var(--serif-zh); letter-spacing: .04em; margin-bottom: 1.1rem; }
+.post h3 a { text-decoration: none; background: linear-gradient(var(--sea-1), var(--sea-1)) 0 88% / 0 .35em no-repeat; transition: background-size .6s var(--ease); }
+.post:hover h3 a { background-size: 100% .35em; }
+.post p { color: var(--ink-soft); font-size: .98rem; line-height: 2; }
+.post .ps { font-family: var(--hand); color: var(--ink-mute); font-size: 1.02rem; margin-top: -.2rem; }
+.post-foot { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: 1.4rem; font-size: .82rem; color: var(--ink-mute); }
+.post-foot .hash { color: var(--sea-ink); }
+.post-foot .mood { margin-left: auto; font: italic 500 .95rem/1 var(--serif-en); }
+
+/* --- 过渡：日记合上，说明书展开 --- */
+.bridge { background: var(--mist); padding: 9rem 0 8rem; text-align: center; overflow-x: clip; --edge: var(--mist); }
+.bridge .line-en { font: italic 400 1.15rem/1 var(--serif-en); color: var(--ink-mute); }
+.bridge h2 { font: 500 clamp(2rem, 5vw, 3.6rem)/1.45 var(--serif-zh); letter-spacing: .08em; margin: 2rem auto 1.8rem; max-width: 16em; }
+.bridge h2 em { font-style: normal; position: relative; white-space: nowrap; margin: 0 .25em; }
+.bridge h2 { isolation: isolate; }
+.bridge h2 em::after { content: ""; position: absolute; left: -.1em; right: -.1em; bottom: .08em; height: .32em; background: rgba(169, 205, 211, .7); z-index: -1; transform: skewX(-12deg); }
+.bridge p { max-width: 34em; margin: 0 auto; color: var(--ink-soft); }
+.bridge-ring { position: absolute; left: 50%; top: 50%; width: min(900px, 140vw); transform: translate(-50%, -50%); pointer-events: none; opacity: .55; }
+.bridge-ring ellipse { fill: none; stroke: var(--sea-2); }
+.manual-mark { display: inline-flex; gap: 1.2rem; margin-top: 3rem; font: 500 .78rem/1 var(--mono); letter-spacing: .3em; color: var(--sea-ink); text-transform: uppercase; }
+.manual-mark span + span::before { content: "/"; margin-right: 1.2rem; opacity: .5; }
+
+/* --- 关于我：角色档案 --- */
+.about { background: var(--paper); --edge: var(--paper); }
+.about-layout { display: grid; grid-template-columns: .9fr 1.1fr; gap: 5rem; align-items: center; }
+.portrait { position: relative; aspect-ratio: 1; max-width: 420px; justify-self: center; width: 100%; }
+.portrait-img { position: absolute; inset: 12%; border-radius: 50%; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(44, 102, 112, .45); }
+.portrait-img img { width: 100%; height: 100%; object-fit: cover; }
+.portrait svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.portrait .orbit { fill: none; stroke: var(--sea-3); stroke-width: .6; }
+.portrait .orbit.dash { stroke-dasharray: 2 6; stroke: var(--gold); }
+.portrait .spin { transform-origin: 50% 50%; animation: spin 60s linear infinite; }
+.portrait .ghost { position: absolute; z-index: -1; right: -10%; top: -6%; writing-mode: vertical-rl; font: 400 clamp(4.5rem, 10vw, 8rem)/1 var(--serif-zh); color: rgba(169, 205, 211, .38); letter-spacing: .1em; pointer-events: none; }
+.portrait { isolation: isolate; }
+
+.dossier { border-top: 1px solid var(--ink); }
+.dossier-row { display: grid; grid-template-columns: 8.5rem 1fr; gap: 1.5rem; padding: 1.15rem 0; border-bottom: 1px solid var(--line); }
+.dossier dt { font-size: .85rem; color: var(--ink-mute); letter-spacing: .15em; }
+.dossier dt i { display: block; font: italic 500 .9rem/1.3 var(--serif-en); letter-spacing: .02em; color: var(--sea-ink); }
+.dossier dd { margin: 0; color: var(--ink-soft); }
+.dossier dd strong { font: 500 1.6rem/1.2 var(--serif-zh); color: var(--ink); letter-spacing: .12em; }
+.likes { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; }
+.likes li { padding: .25em .9em; border: 1px solid var(--line); border-radius: 99px; font-size: .88rem; background: var(--paper-card); }
+.footnote { margin-top: 1.6rem; font-size: .84rem; color: var(--ink-mute); line-height: 1.9; padding-left: 1rem; border-left: 2px solid var(--sea-2); }
+
+@media (max-width: 900px) {
+  .sec { padding: 6rem 0; }
+  .journal-layout, .about-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .journal-side { position: static; }
+  .post { grid-template-columns: 1fr; gap: .6rem; }
+  .post:nth-child(even) { margin-left: 0; }
+  .post-date { text-align: left; padding: 0; display: flex; align-items: baseline; gap: .8rem; }
+  .post-date b { font-size: 2.6rem; }
+  .post-paper { padding: 2rem 1.5rem 2.6rem; }
+  .dossier-row { grid-template-columns: 6rem 1fr; gap: 1rem; }
+}
